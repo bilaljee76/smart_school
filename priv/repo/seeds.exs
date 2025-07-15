@@ -10,7 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias SmartSchool.Accounts
+alias SmartSchool.Roles
 
 [
   "Super Admin",
@@ -20,7 +20,7 @@ alias SmartSchool.Accounts
   "Student"
 ]
 |> Enum.each(fn name ->
-  Accounts.create_role(%{
+  Roles.create_role(%{
     name: name,
     description: "#{name} role"
   })
