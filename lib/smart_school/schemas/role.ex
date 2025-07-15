@@ -13,6 +13,7 @@ defmodule SmartSchool.Schemas.Role do
       role
       |> cast(attrs, [:name, :description])
       |> validate_required([:name, :description])
+      |> unique_constraint(:name)
     end
   end
 end

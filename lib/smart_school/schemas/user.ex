@@ -8,11 +8,12 @@ defmodule SmartSchool.Schemas.User do
     field :email, :string
     field :cnic, :string
     belongs_to :role, SmartSchool.Schemas.Role
+    belongs_to :country, SmartSchool.Schemas.Country
     timestamps()
 
     def changeset(user, attrs) do
       user
-      |> cast(attrs, [:name, :age, :email, :cnic, :role])
+      |> cast(attrs, [:name, :age, :email, :cnic, :role, :country_id])
       |> validate_required([:name, :age, :email, :cnic])
       |> unique_constraint(:email)
       |> unique_constraint(:cnic)
