@@ -14,7 +14,7 @@ alias SmartSchool.Roles
 
 [
   "Super Admin",
-  "Asmin",
+  "Admin",
   "Teacher",
   "Staff",
   "Student"

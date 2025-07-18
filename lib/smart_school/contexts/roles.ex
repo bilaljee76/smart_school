@@ -14,7 +14,7 @@ defmodule SmartSchool.Roles do
   end
 
   def get_role_by_name(name) do
-    Repo.get_by(Role, name: name)
+    Repo.get_by(SmartSchool.Schemas.Role, name: name)
   end
 
   def update_role(%Role{} = role, attrs) do

@@ -13,10 +13,12 @@ defmodule SmartSchool.Schemas.User do
 
     def changeset(user, attrs) do
       user
-      |> cast(attrs, [:name, :age, :email, :cnic, :role, :country_id])
+      |> cast(attrs, [:name, :age, :email, :cnic, :country_id, :role_id])
       |> validate_required([:name, :age, :email, :cnic])
       |> unique_constraint(:email)
       |> unique_constraint(:cnic)
+      |> foreign_key_constraint(:role_id)
+      |> validate_length(:cnic, is: 13)
     end
   end
 end

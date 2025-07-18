@@ -21,9 +21,20 @@ defmodule SmartSchoolWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", SmartSchoolWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", SmartSchoolWeb.Api do
+    pipe_through :api
+
+    # check all possible routes for country routes
+    # resources "/countries", CountryController
+    # resources "/users", UserController
+    get "/countries", CountryController, :index
+    post "/countries", CountryController, :create
+
+    get "/users", UserController, :index
+    get "/users/:id", UserController, :show
+    post "/users", UserController, :create
+    get "/users/count_by_country/:country_id", UserController, :count_by_country
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:smart_school, :dev_routes) do

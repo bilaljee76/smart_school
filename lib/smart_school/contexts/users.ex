@@ -2,7 +2,6 @@ defmodule SmartSchool.Users do
   import Ecto.Query, warn: false
   alias SmartSchool.Repo
   alias SmartSchool.Schemas.User
-  alias SmartSchool.Schemas.Country
 
   def create_user(attrs \\ %{}) do
     %User{}
@@ -11,8 +10,7 @@ defmodule SmartSchool.Users do
   end
 
   def list_users do
-    Repo.all(User)
-    |> Repo.preload(:roles)
+    Repo.all(User) |> Repo.preload([:role, :country])
   end
 
   def get_user(id) do
@@ -34,19 +32,8 @@ defmodule SmartSchool.Users do
     Repo.delete(user)
   end
 
-  # change user using form handling
-  def change_user(%User{} = user, attrs \\ %{}) do
-    User.changeset(user, attrs)
-  end
-
-  def list_user_count_by_country do
-    query =
-      from c in Country,
-        join: u in User,
-        on: u.country_id == c.id,
-        group_by: c.id,
-        select: {c.name, count(u.id)}
-
-    Repo.all(query)
+  def list_user_count_by_country(country_id) do
+    from(u in User, where: u.country_id == ^country_id)
+    |> Repo.aggregate(:count, :id)
   end
 end

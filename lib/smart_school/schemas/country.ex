@@ -14,6 +14,7 @@ defmodule SmartSchool.Schemas.Country do
   def changeset(country, attrs) do
     country
     |> cast(attrs, [:name, :code, :region])
+    |> update_change(:code, &String.upcase/1)
     |> validate_required([:name, :code, :region])
     |> unique_constraint(:name)
     |> unique_constraint(:code)
