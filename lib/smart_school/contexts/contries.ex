@@ -1,7 +1,7 @@
 defmodule SmartSchool.Countries do
   import Ecto.Query, warn: false
   alias SmartSchool.Repo
-  alias SmartSchool.Schemas.Country
+  alias SmartSchool.Schemas.{Country, User}
 
   def create_country(attrs \\ %{}) do
     %Country{}
@@ -34,7 +34,7 @@ defmodule SmartSchool.Countries do
   def list_countries_with_user_count do
     from(c in Country,
       left_join: u in User,
-      on: u.counry_id == c.id,
+      on: u.country_id == c.id,
       group_by: c.id,
       select: %{
         "Country Code" => c.code,

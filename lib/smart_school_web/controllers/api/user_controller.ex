@@ -4,6 +4,7 @@ defmodule SmartSchoolWeb.Api.UserController do
   use SmartSchoolWeb, :controller
 
   alias SmartSchool.Users
+  alias SmartSchool.Roles
   alias SmartSchool.Repo
 
   def index(conn, _params) do
@@ -19,7 +20,8 @@ defmodule SmartSchoolWeb.Api.UserController do
   def create(conn, %{"user" => user_params}) do
     case Users.create_user(user_params) do
       {:ok, user} ->
-        user = Repo.preload(user, :country)
+        # user = Repo.preload(user, :country)
+        user = Repo.preload(user, [:role, :country])
 
         conn
         |> put_status(:created)
@@ -36,4 +38,29 @@ defmodule SmartSchoolWeb.Api.UserController do
     count = Users.list_user_count_by_country(String.to_integer(country_id))
     json(conn, %{count: count})
   end
+
+  def new(conn, _params) do
+    roles = Roles.list_roles()
+    render(conn, "register.html", roles: roles)
+  end
+
+
+
+# Create Login Controller Action
+def login(conn, %{"email" => email, "password" => password}) do
+  case Users.authenticate_user(email, password) do
+    {:ok, user} ->
+      # Preload the user with role and country
+      user = Repo.preload(user, [:role, :country])
+      conn
+      |> put_status(:ok)
+      |> render("login.json", user: user)
+
+    {:error, message} ->
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: message})
+  end
+end
+
 end

@@ -28,12 +28,19 @@ defmodule SmartSchoolWeb.Router do
     # resources "/countries", CountryController
     # resources "/users", UserController
     get "/countries", CountryController, :index
+    get "/countries/:id", CountryController, :show
     post "/countries", CountryController, :create
 
+    # route for user registration and listing
+    post "/users", UserController, :create
     get "/users", UserController, :index
     get "/users/:id", UserController, :show
-    post "/users", UserController, :create
+
     get "/users/count_by_country/:country_id", UserController, :count_by_country
+    get "/users_with_country", CountryController, :user_counts
+
+    # route for user authentication
+    post "/users/login", UserController, :login
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

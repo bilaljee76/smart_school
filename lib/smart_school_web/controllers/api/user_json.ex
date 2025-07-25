@@ -10,6 +10,7 @@ defmodule SmartSchoolWeb.Api.UserJSON do
         age: user.age,
         email: user.email,
         cnic: user.cnic,
+        password: user.password,
         role_id: user.role_id,
         role_name: user.role && user.role.name,
         country_id: user.country_id,
@@ -27,8 +28,9 @@ defmodule SmartSchoolWeb.Api.UserJSON do
       age: user.age,
       email: user.email,
       cnic: user.cnic,
-      role_id: user.role_id,
-      country_id: user.country_id,
+      password: user.password,
+      role: user.role.name,
+      country: user.country.name,
       inserted_at: user.inserted_at,
       updated_at: user.updated_at
     }
@@ -42,10 +44,24 @@ defmodule SmartSchoolWeb.Api.UserJSON do
         age: user.age,
         email: user.email,
         cnic: user.cnic,
-        role_id: user.role_id,
-        country_id: user.country_id,
+        password: user.password,
+        role: user.role.name,
+        country: user.country.name,
         inserted_at: user.inserted_at,
         updated_at: user.updated_at
+      }
+    }
+  end
+
+  def render("login.json", %{user: user}) do
+    %{
+      message: "Login successful",
+      user: %{
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role.name,
+        country: user.country.name
       }
     }
   end

@@ -31,4 +31,8 @@ defmodule SmartSchool.Roles do
   def change_role(%Role{} = role, attrs \\ %{}) do
     Role.changeset(role, attrs)
   end
+
+  # def new(conn, _params) do
+  #   roles = Roles.list_roles()
+  # end
 end

@@ -3,6 +3,7 @@ defmodule SmartSchool.Users do
   alias SmartSchool.Repo
   alias SmartSchool.Schemas.User
 
+
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
@@ -36,4 +37,30 @@ defmodule SmartSchool.Users do
     from(u in User, where: u.country_id == ^country_id)
     |> Repo.aggregate(:count, :id)
   end
+
+  def get_user_by_email(email) do
+    Repo.get_by(User, email: email)
+    |> Repo.preload(:role)
+  end
+
+
+# Add authenticate user
+def authenticate_user(email, password) do
+  case get_user_by_email(email) do
+    nil ->
+      {:error, "User not found"}
+
+    user ->
+      if Bcrypt.verify_pass(password, user.password) do
+        SmartSchool.SlackNotifier.send_login_notification(user)
+        # Preload the user with role and country in user_controller
+        {:ok, user}
+      else
+        {:error, "Invalid password "}
+      end
+  end
+end
+
+
+
 end
